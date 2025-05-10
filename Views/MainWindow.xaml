@@ -1,0 +1,43 @@
+<Window
+    x:Class="UBB_SE_2025_EUROTRUCKERS.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/background.jpg" Stretch="UniformToFill" />
+        </Grid.Background>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- NavigationView con ItemInvoked -->
+        <controls:NavigationView Grid.Column="0"
+                              x:Name="NavView"
+                              PaneDisplayMode="LeftCompact"
+                              IsBackButtonVisible="Collapsed"
+                              IsSettingsVisible="False"
+                              Background="#80000000"
+                              ItemInvoked="NavView_ItemInvoked">
+
+            <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem 
+                    Content="Deliveries" 
+                    Icon="Map" 
+                    Tag="deliveries"/>
+
+                <controls:NavigationViewItem 
+                    Content="Log Out" 
+                    Icon="LeaveChat" 
+                    Tag="logout"/>
+            </controls:NavigationView.MenuItems>
+        </controls:NavigationView>
+
+        <!-- Content Frame -->
+        <Frame x:Name="MainContent" Grid.Column="1"/>
+    </Grid>
+</Window>

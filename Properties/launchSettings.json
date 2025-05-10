@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "UBB-SE-2025-EUROTRUCKERS (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "UBB-SE-2025-EUROTRUCKERS (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

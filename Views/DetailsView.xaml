@@ -1,0 +1,48 @@
+<Page
+    x:Class="UBB_SE_2025_EUROTRUCKERS.Views.DetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:models="using:UBB_SE_2025_EUROTRUCKERS.Models"
+    xmlns:viewmodels="using:UBB_SE_2025_EUROTRUCKERS.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:DetailsViewModel, IsDesignTimeCreatable=True}">
+
+    <Grid Padding="20">
+        <StackPanel>
+            <TextBlock Text="Detailed view of selected delivery:" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+            <TextBlock Text="ID:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.delivery_id}" Margin="0,0,0,10"/>
+            <TextBlock Text="Reference number:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.reference_number}" Margin="0,0,0,10"/>
+            <TextBlock Text="Company:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.company_id}" Margin="0,0,0,10"/>
+            <TextBlock Text="Departure address:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.departure_address}" Margin="0,0,0,10"/>
+            <TextBlock Text="Departure time:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.departure_time}" Margin="0,0,0,10"/>
+            <TextBlock Text="Destination address:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.destination_address}" Margin="0,0,0,10"/>
+            <TextBlock Text="ETA:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.estimated_time_arrival}" Margin="0,0,0,10"/>
+            <TextBlock Text="Status:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.status}" Margin="0,0,0,10"/>
+            <TextBlock Text="Driver:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.driver_id}" Margin="0,0,0,10"/>
+            <TextBlock Text="Truck:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.truck_id}" Margin="0,0,0,10"/>
+            <TextBlock Text="Cargo:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.cargo_description}" Margin="0,0,0,10"/>
+            <TextBlock Text="Weight (Kg):" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.weight_kg}" Margin="0,0,0,10"/>
+            <TextBlock Text="Destination address:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.destination_address}" Margin="0,0,0,10"/>
+            <TextBlock Text="Total distance (Km):" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.total_distance_km}" Margin="0,0,0,10"/>
+            <TextBlock Text="Fee (�):" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedDelivery.fee_euros}" Margin="0,0,0,10"/>
+        </StackPanel>
+    </Grid>
+</Page>
+
