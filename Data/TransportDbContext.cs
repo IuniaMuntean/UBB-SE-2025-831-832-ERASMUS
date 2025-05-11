@@ -14,6 +14,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
         public DbSet<Driver> drivers { get; set; }
         public DbSet<Truck> trucks { get; set; }
         public DbSet<Delivery> deliveries { get; set; }
+        public DbSet<User> users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +38,16 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
                 .HasForeignKey(d => d.company_id);
 
             modelBuilder.Entity<Delivery>().ToTable("deliveries","transport");
+
+            // User configuration
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Username).IsRequired();
+                entity.Property(e => e.Password).IsRequired();
+            });
+
+            modelBuilder.Entity<User>().ToTable("users", "transport");
         }
     }
 }

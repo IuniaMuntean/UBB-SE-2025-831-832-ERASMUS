@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Data
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "<Pending>")]
     public class DatabaseInitializer
     {
         private readonly TransportDbContext _context;

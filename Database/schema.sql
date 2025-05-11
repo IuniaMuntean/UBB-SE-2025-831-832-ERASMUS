@@ -53,3 +53,11 @@ CREATE TABLE transport.deliveries (
     total_distance_km DECIMAL(10, 2),
     fee_euros DECIMAL(10, 2)
 );
+
+CREATE TABLE transport.users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+
