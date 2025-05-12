@@ -34,6 +34,13 @@
                     Content="Log Out" 
                     Icon="LeaveChat" 
                     Tag="logout"/>
+
+                <controls:NavigationViewItem 
+                    Content="Map Page" 
+                    Icon="Add" 
+                    Tag="mappage"/>
+
+
             </controls:NavigationView.MenuItems>
         </controls:NavigationView>
 

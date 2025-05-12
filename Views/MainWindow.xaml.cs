@@ -32,6 +32,13 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
                     case "logout":
                         ViewModel.LogOutCommand.Execute(null);
                         break;
+                    case "mappage":
+                        {
+                            FullMapView mp = new FullMapView();
+                            mp.Activate();
+                            //ViewModel.NavigateToMapViewCommand.Execute(null);
+                            break;
+                        }
                 }
             }
         }
