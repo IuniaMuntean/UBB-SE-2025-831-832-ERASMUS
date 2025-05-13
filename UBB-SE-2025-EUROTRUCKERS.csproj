@@ -91,6 +91,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\ResourcesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\FullMapView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

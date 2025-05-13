@@ -20,6 +20,8 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 
         public ICommand NavigateToMapViewCommand { get; }
 
+        public ICommand NavigateToResourcesCommand { get; }
+
         public MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -36,6 +38,11 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 
             NavigateToMapViewCommand = new RelayCommand(() => {
                 _navigationService.NavigateTo<MapViewModel>();
+            });
+
+            NavigateToResourcesCommand = new RelayCommand(() =>
+            {
+                _navigationService.NavigateTo<ResourcesViewModel>();
             });
         }
 

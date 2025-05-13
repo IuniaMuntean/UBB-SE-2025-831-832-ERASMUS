@@ -39,6 +39,11 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
                             //ViewModel.NavigateToMapViewCommand.Execute(null);
                             break;
                         }
+                    case "resourcePage":
+                        {
+                            ViewModel.NavigateToResourcesCommand.Execute(null); 
+                            break;
+                        }
                 }
             }
         }

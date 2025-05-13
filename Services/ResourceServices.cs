@@ -17,11 +17,10 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
 
     public class ResourceServices : IResourceServices
     {
-        private readonly string _connectionString;
+        private readonly string _connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=postgres";
 
-        public ResourceServices(string connectionString)
+        public ResourceServices()
         {
-            _connectionString = connectionString;
         }
 
         public void CreateDriver(Driver driver)
