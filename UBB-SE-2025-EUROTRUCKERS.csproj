@@ -28,7 +28,6 @@
     <None Remove="Assets\SplashScreen.scale-200.png" />
     <None Remove="Database\mock_data.sql" />
     <None Remove="Database\schema.sql" />
-    <None Remove="Views\FullMapView.xaml" />
     <None Remove="Views\MainWindow.xaml" />
   </ItemGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -96,7 +95,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\FullMapView.xaml">
+    <Page Update="Views\MapView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -36,7 +36,7 @@
                     Tag="logout"/>
 
                 <controls:NavigationViewItem 
-                    Content="Map Page" 
+                    Content="Map" 
                     Icon="Map" 
                     Tag="mappage"/>
 

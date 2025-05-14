@@ -6,13 +6,13 @@ namespace UBB_SE_2025_EUROTRUCKERS.Models
     [Table("roads")]
     public class Road
     {
-        [Column("ID")]
+        [Column("id")]
         public int id { get; set; }
 
-        [Column("startCityID")]
+        [Column("startcityid")]
         public int startCityID { get; set; }
 
-        [Column("endCityID")]
+        [Column("endcityid")]
         public int endCityID { get; set; }
 
         [Column("distance")]

@@ -1,45 +1,35 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UBB_SE_2025_EUROTRUCKERS.Data;
-using UBB_SE_2025_EUROTRUCKERS.Services;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using UBB_SE_2025_EUROTRUCKERS.ViewModels;
 using Windows.Graphics;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace UBB_SE_2025_EUROTRUCKERS.Views
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class FullMapView : Window
+    public sealed partial class MapView : Window
     {
-        private MapService graphService;
-        private TransportDbContext transportDbContext;
+        public MapViewModel ViewModel { get; }
 
-        public FullMapView()
+        public MapView()
         {
             this.InitializeComponent();
             setSize();
-            //transportDbContext = new TransportDbContext();
-            graphService = new MapService(transportDbContext);
+            ViewModel = App.Services.GetRequiredService<MapViewModel>();
+            GraphCanvas.DataContext = ViewModel;
 
+            GraphCanvas.Loaded += MapView_Loaded;
+        }
+
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        {
             Canvas canvas = new Canvas
             {
                 Width = 600,
@@ -47,21 +37,15 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
                 Background = new SolidColorBrush(Microsoft.UI.Colors.LightGray)
             };
 
-            DrawCircles(canvas, graphService.Graph.Cities().Select(city => (city.x, city.y, city.name)).ToList());
+            List<(float x, float y, string name)> coordinates = ViewModel.CityCoordinates.ToList();
+            DrawCircles(canvas, coordinates);
 
-            //var path = Fabi__Path_Finding.Path(graphService.Graph, startCityID, endCityID);
-            DrawLines(canvas, new SolidColorBrush(Microsoft.UI.Colors.Black), graphService.Graph.Roads().Select(road => ((graphService.Graph.City(road.startCityID).x, graphService.Graph.City(road.startCityID).y), (graphService.Graph.City(road.endCityID).x, graphService.Graph.City(road.endCityID).y))).ToList());
-            //DrawLine(canvas, new SolidColorBrush(Microsoft.UI.Colors.Yellow), path.Select(id => (graphService.Graph.City(id).x, graphService.Graph.City(id).y)).ToList());
+
+            List<((float x, float y) start, (float x, float y) end)> roadCoords = ViewModel.RoadCoordinates.ToList();
+            DrawLines(canvas, new SolidColorBrush(Microsoft.UI.Colors.Black), roadCoords);
+
+
         }
-
-        private void setSize()
-        {
-            IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-            AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
-            appWindow.Resize(new SizeInt32(1000, 900));
-        }
-
 
         private void DrawCircles(Canvas canvas, List<(float x, float y, string name)> coordinates)
         {
@@ -130,6 +114,13 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
 
                 canvas.Children.Add(line);
             }
+        }
+        private void setSize()
+        {
+            IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
+            AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
+            appWindow.Resize(new SizeInt32(900, 900));
         }
     }
 }

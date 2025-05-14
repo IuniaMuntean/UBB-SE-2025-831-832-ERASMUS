@@ -21,6 +21,8 @@ namespace UBB_SE_2025_EUROTRUCKERS.Models
 
         public ICollection<Road> Roads { get; set; }
 
+        //public City _City { get; set; }
+
         public City()
         {
             this.id = 0;
@@ -29,7 +31,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Models
             this.y = 0;
         }
 
-        public City(int id, string name, int x, int y)
+        public City(int id, string name, float x, float y)
         {
             this.id = id;
             this.name = name;

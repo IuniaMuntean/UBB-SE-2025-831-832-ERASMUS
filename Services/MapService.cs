@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using UBB_SE_2025_EUROTRUCKERS.Data;
 using UBB_SE_2025_EUROTRUCKERS.Models;
@@ -15,6 +16,8 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
 
         public Task<City> GetCityByIdAsync(int id);
         public Task<Road> GetRoadByIdAsync(int id);
+
+        public Task<List<int>> GetPathAsync(int idStart, int idEnd);
     }
 
     public class MapService: IMapService
@@ -31,7 +34,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
         public async Task<List<City>> GetCitiesAsync()
         {
             return await _transportDbContext.cities
-                //.Include(c => c.City)
+                //.Include(c => c)
                 .ToListAsync();
         }
 
@@ -54,6 +57,11 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
             return await _transportDbContext.roads
                 //.Include(c => c.Road)
                 .ToListAsync();
+        }
+
+        public async Task<List<int>> GetPathAsync(int idStart, int idEnd)
+        {
+            return Graph.path(idStart, idEnd);
         }
 
     }

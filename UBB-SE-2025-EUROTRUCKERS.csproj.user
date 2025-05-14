@@ -11,7 +11,7 @@
     <Page Update="Views\ResourcesView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\FullMapView.xaml">
+    <Page Update="Views\MapView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\DetailsView.xaml">

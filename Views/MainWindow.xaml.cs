@@ -34,9 +34,9 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
                         break;
                     case "mappage":
                         {
-                            FullMapView mp = new FullMapView();
-                            mp.Activate();
                             //ViewModel.NavigateToMapViewCommand.Execute(null);
+                            MapView mp = new MapView();
+                            mp.Activate();
                             break;
                         }
                     case "resourcePage":

@@ -65,12 +65,13 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddTransient<DeliveriesViewModel>();
             services.AddTransient<DetailsViewModel>();
             services.AddTransient<ResourcesViewModel>();
+            services.AddTransient<MapViewModel>();
 
             // 6. Views
             services.AddTransient<MainWindow>();
             services.AddTransient<DeliveriesView>();
             services.AddTransient<DetailsView>();
-            services.AddTransient<FullMapView>();
+            services.AddTransient<MapView>();
             services.AddTransient<ResourcesView>();
 
             // 7. Additional configuration

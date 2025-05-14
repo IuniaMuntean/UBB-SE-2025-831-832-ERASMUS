@@ -47,12 +47,15 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
             modelBuilder.Entity<City>(city =>
             {
                 city.HasKey(c => c.id);
+                city.Property(c => c.x).HasColumnType("real");
+                city.Property(c => c.y).HasColumnType("real");
             });
-            modelBuilder.Entity<City>().ToTable("cities", "trasnport");
+            modelBuilder.Entity<City>().ToTable("cities", "transport");
 
             modelBuilder.Entity<Road>(road =>
             {
                 road.HasKey(r => new { r.startCityID, r.endCityID });
+                road.Property(r => r.distance).HasColumnType("real");
             });
             modelBuilder.Entity<Road>()
                 .HasOne(r => r.StartCity)

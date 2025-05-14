@@ -66,11 +66,11 @@ CREATE TABLE transport.cities
 -- Roads table
 CREATE TABLE transport.roads
 (
-    ID SERIAL,
-	startCityID INT,
-	endCityID INT,
+    id int,
+	startcityid INT,
+	endcityid INT,
 	distance FLOAT,
-	FOREIGN KEY (startCity) REFERENCES cities(id),
-	FOREIGN KEY (endCity) REFERENCES cities(id),
-	PRIMARY KEY (startCity, endCity)
+	FOREIGN KEY (startcityid) REFERENCES transport.cities(id),
+	FOREIGN KEY (endcityid) REFERENCES transport.cities(id),
+	PRIMARY KEY (startcityid, endcityid)
 );
