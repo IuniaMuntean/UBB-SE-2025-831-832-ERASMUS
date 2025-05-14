@@ -21,6 +21,7 @@ namespace UBB_SE_2025_EUROTRUCKERS
     {
         public IHost Host { get; private set; }
         public static IServiceProvider Services { get; private set; }
+        public static Window MainWindow { get; private set; }
 
         public App()
         {
@@ -53,6 +54,7 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddTransient<IDeliveryService, DeliveryService>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<ILoggingService, LoggingService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddSingleton<IResourceServices,  ResourceServices>();
             services.AddSingleton<IMapService, MapService>();
             services.AddLogging(configure => configure.AddDebug());
@@ -64,6 +66,8 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddTransient<MainViewModel>();
             services.AddTransient<DeliveriesViewModel>();
             services.AddTransient<DetailsViewModel>();
+            services.AddTransient<LoginViewModel>();
+            services.AddTransient<RegisterViewModel>();
             services.AddTransient<ResourcesViewModel>();
             services.AddTransient<MapViewModel>();
 
@@ -71,6 +75,8 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddTransient<MainWindow>();
             services.AddTransient<DeliveriesView>();
             services.AddTransient<DetailsView>();
+            services.AddTransient<LoginPage>();
+            services.AddTransient<RegisterPage>();
             services.AddTransient<MapView>();
             services.AddTransient<ResourcesView>();
 
@@ -84,39 +90,39 @@ namespace UBB_SE_2025_EUROTRUCKERS
 
             try
             {
-                // Inicializar la base de datos
+                // Initialize database
                 using var scope = Services.CreateScope();
                 var initializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
                 await initializer.InitializeDatabaseAsync();
 
-                // Mostrar la ventana principal
-                var mainWindow = Services.GetRequiredService<MainWindow>();
-                mainWindow.Activate();
+                MainWindow = new MainWindow();             // create the MainWindow
+                App.MainWindow = MainWindow;               // ✅ this line is essential!
+                MainWindow.Content = new LoginPage(MainWindow); // ✅ pass window reference!
+                MainWindow.Activate();
 
-                // Inicializar servicios que necesitan la ventana
+                // Initialize services that need the window
                 var dialogService = Services.GetRequiredService<IDialogService>();
                 if (dialogService is DialogService concreteDialogService)
                 {
-                    // Esperar a que la ventana esté lista
-                    await Task.Delay(300); // Pequeña espera para asegurar la inicialización
-                    concreteDialogService.Initialize(mainWindow);
+                    await Task.Delay(300); // Small delay to ensure initialization
+                    concreteDialogService.Initialize(MainWindow);
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error durante el inicio: {ex}");
+                Debug.WriteLine($"Error during startup: {ex}");
 
                 try
                 {
                     var dialogService = Services.GetRequiredService<IDialogService>();
                     await dialogService.ShowErrorDialogAsync(
-                        "Error de inicio",
-                        $"No se pudo iniciar la aplicación. Error: {ex.Message}");
+                        "Startup Error",
+                        $"Could not start the application. Error: {ex.Message}");
                 }
                 catch (Exception dialogEx)
                 {
-                    Debug.WriteLine($"Error al mostrar diálogo de error: {dialogEx}");
-                    // Fallback absoluto
+                    Debug.WriteLine($"Error showing error dialog: {dialogEx}");
+                    // Absolute fallback
                     System.Diagnostics.Debug.WriteLine($"CRITICAL ERROR: {ex}");
                 }
 

@@ -30,7 +30,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
                         ViewModel.NavigateToDeliveriesCommand.Execute(null);
                         break;
                     case "logout":
-                        ViewModel.LogOutCommand.Execute(null);
+                        HandleLogout();
                         break;
                     case "mappage":
                         {
@@ -47,5 +47,17 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
                 }
             }
         }
+
+        private void HandleLogout()
+        {
+            var loginWindow = new Window();
+            var loginPage = new LoginPage(loginWindow); // ✅ pass the window to LoginPage
+            loginWindow.Content = loginPage;
+            loginWindow.Activate();
+
+            this.Close(); // ✅ close the current MainWindow
+        }
+
+
     }
 }

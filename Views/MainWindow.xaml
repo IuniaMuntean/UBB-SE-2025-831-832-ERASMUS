@@ -19,12 +19,17 @@
         <controls:NavigationView Grid.Column="0"
                               x:Name="NavView"
                               PaneDisplayMode="LeftCompact"
-                              IsBackButtonVisible="Collapsed"
-                              IsSettingsVisible="False"
+                              IsBackButtonVisible="Visible"
+                              IsSettingsVisible="True"
                               Background="#80000000"
                               ItemInvoked="NavView_ItemInvoked">
 
             <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem 
+                    Content="Orders" 
+                    Icon="Home" 
+                    Tag="orders"/>
+                
                 <controls:NavigationViewItem 
                     Content="Deliveries" 
                     Icon="Folder"
