@@ -54,10 +54,30 @@ CREATE TABLE transport.deliveries (
     fee_euros DECIMAL(10, 2)
 );
 
+-- Users table
 CREATE TABLE transport.users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
 );
 
+-- Cities table
+CREATE TABLE transport.cities
+(
+	id INT PRIMARY KEY,
+	name VARCHAR(255),
+	x FLOAT,
+	y FLOAT	
+);
 
+-- Roads table
+CREATE TABLE transport.roads
+(
+    id int,
+	startcityid INT,
+	endcityid INT,
+	distance FLOAT,
+	FOREIGN KEY (startcityid) REFERENCES transport.cities(id),
+	FOREIGN KEY (endcityid) REFERENCES transport.cities(id),
+	PRIMARY KEY (startcityid, endcityid)
+);

@@ -32,13 +32,25 @@
                 
                 <controls:NavigationViewItem 
                     Content="Deliveries" 
-                    Icon="Map" 
+                    Icon="Folder"
                     Tag="deliveries"/>
 
                 <controls:NavigationViewItem 
                     Content="Log Out" 
                     Icon="LeaveChat" 
                     Tag="logout"/>
+
+                <controls:NavigationViewItem 
+                    Content="Map" 
+                    Icon="Map" 
+                    Tag="mappage"/>
+
+                <controls:NavigationViewItem 
+                    Content="Resources Page" 
+                    Icon="Add" 
+                    Tag="resourcePage"/>
+
+
             </controls:NavigationView.MenuItems>
         </controls:NavigationView>
 

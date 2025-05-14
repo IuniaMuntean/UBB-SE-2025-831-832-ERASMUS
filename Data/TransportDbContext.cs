@@ -10,11 +10,14 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
         {
         }
 
+
         public DbSet<Company> companies { get; set; }
         public DbSet<Driver> drivers { get; set; }
         public DbSet<Truck> trucks { get; set; }
         public DbSet<Delivery> deliveries { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<City> cities { get; set; }
+        public DbSet<Road> roads { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +42,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
 
             modelBuilder.Entity<Delivery>().ToTable("deliveries","transport");
 
+
             // User configuration
             modelBuilder.Entity<User>(entity =>
             {
@@ -48,6 +52,35 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
             });
 
             modelBuilder.Entity<User>().ToTable("users", "transport");
+
+
+            // Cities and Roads Config
+            modelBuilder.Entity<City>(city =>
+            {
+                city.HasKey(c => c.id);
+                city.Property(c => c.x).HasColumnType("real");
+                city.Property(c => c.y).HasColumnType("real");
+            });
+            modelBuilder.Entity<City>().ToTable("cities", "transport");
+
+            modelBuilder.Entity<Road>(road =>
+            {
+                road.HasKey(r => new { r.startCityID, r.endCityID });
+                road.Property(r => r.distance).HasColumnType("real");
+            });
+            modelBuilder.Entity<Road>()
+                .HasOne(r => r.StartCity)
+                .WithMany(c => c.Roads)
+                .HasForeignKey(r => r.startCityID)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Road>()
+            .HasOne(r => r.EndCity)
+            .WithMany()
+            .HasForeignKey(r => r.endCityID)
+            .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Road>().ToTable("roads", "transport");
         }
     }
 }
