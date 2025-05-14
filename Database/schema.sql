@@ -53,3 +53,24 @@ CREATE TABLE transport.deliveries (
     total_distance_km DECIMAL(10, 2),
     fee_euros DECIMAL(10, 2)
 );
+
+-- Cities table
+CREATE TABLE transport.cities
+(
+	id INT PRIMARY KEY,
+	name VARCHAR(255),
+	x FLOAT,
+	y FLOAT	
+);
+
+-- Roads table
+CREATE TABLE transport.roads
+(
+    id int,
+	startcityid INT,
+	endcityid INT,
+	distance FLOAT,
+	FOREIGN KEY (startcityid) REFERENCES transport.cities(id),
+	FOREIGN KEY (endcityid) REFERENCES transport.cities(id),
+	PRIMARY KEY (startcityid, endcityid)
+);
