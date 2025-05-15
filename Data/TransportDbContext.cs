@@ -15,6 +15,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
         public DbSet<Truck> trucks { get; set; }
         public DbSet<Delivery> deliveries { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<Order> orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +49,19 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
             });
 
             modelBuilder.Entity<User>().ToTable("users", "transport");
+
+            //Order configuration
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasKey(e => e.OrderId);
+                entity.Property(e => e.ClientName).IsRequired();
+                entity.Property(e => e.CargoType).IsRequired();
+                entity.Property(e => e.CargoWeight).IsRequired();
+                entity.Property(e => e.SourceCity).IsRequired();
+                entity.Property(e => e.DestinationCity).IsRequired();
+            });
+
+            modelBuilder.Entity<Order>().ToTable("orders", "transport");
         }
     }
 }

@@ -60,4 +60,14 @@ CREATE TABLE transport.users (
     password VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE transport.orders (
+    order_id SERIAL PRIMARY KEY,
+    client_name VARCHAR(255) NOT NULL,
+    cargo_type VARCHAR(255) NOT NULL,
+    cargo_weight DOUBLE PRECISION NOT NULL,
+    source_city VARCHAR(255) NOT NULL,
+    destination_city VARCHAR(255) NOT NULL
+);
+
+
 

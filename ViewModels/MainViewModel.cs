@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 using UBB_SE_2025_EUROTRUCKERS.Services;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 
 namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 {

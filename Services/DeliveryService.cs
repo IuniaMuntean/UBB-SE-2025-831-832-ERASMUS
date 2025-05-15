@@ -4,19 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using UBB_SE_2025_EUROTRUCKERS.Data;
 using UBB_SE_2025_EUROTRUCKERS.Models;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Services
 {
-    public interface IDeliveryService
-    {
-        Task<IEnumerable<Delivery>> GetAllDeliveriesAsync();
-        Task<Delivery?> GetDeliveryByIdAsync(int id);
-        Task<bool> UpdateDeliveryStatusAsync(int deliveryId, string status);
-        Task<bool> CreateDeliveryAsync(Delivery delivery);
-        Task<bool> DeleteDeliveryAsync(int deliveryId);
-    }
-
-    // Services/DeliveryService.cs
+   
     public class DeliveryService : IDeliveryService
     {
         private readonly IRepository<Delivery> _deliveryRepository;

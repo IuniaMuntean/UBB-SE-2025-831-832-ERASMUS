@@ -4,17 +4,11 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using UBB_SE_2025_EUROTRUCKERS.ViewModels;
 using UBB_SE_2025_EUROTRUCKERS.Views;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Services
 {
-    public interface INavigationService
-    {
-        void SetContentFrame(Frame frame);
-        void NavigateTo<TViewModel>() where TViewModel : ViewModelBase;
-        void NavigateToWithParameter<TViewModel>(object parameter) where TViewModel : ViewModelBase;
-        void GoBack();
-        bool CanGoBack();
-    }
+    
 
     public class NavigationService : INavigationService
     {
