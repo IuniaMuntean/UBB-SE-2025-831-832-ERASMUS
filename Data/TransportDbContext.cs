@@ -89,8 +89,18 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
                 entity.Property(e => e.ClientName).IsRequired();
                 entity.Property(e => e.CargoType).IsRequired();
                 entity.Property(e => e.CargoWeight).IsRequired();
-                entity.Property(e => e.SourceCity).IsRequired();
-                entity.Property(e => e.DestinationCity).IsRequired();
+                
+                entity.HasOne(e => e.SourceCity)
+                    .WithMany()
+                    .HasForeignKey("source_city_id")
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.DestinationCity)
+                    .WithMany()
+                    .HasForeignKey("destination_city_id")
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Order>().ToTable("orders", "transport");

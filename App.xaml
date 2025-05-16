@@ -48,6 +48,7 @@
             </Style>
             <converters:StatusToColorConverter x:Key="StatusToColorConverter"/>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:BoolToTextConverter x:Key="BoolToTextConverter"/>
 
             <!-- Estilos -->
             <Style TargetType="TextBlock" x:Key="BodyTextBlockStyle">

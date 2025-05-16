@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -12,52 +13,78 @@ using System.Threading.Tasks;
 using UBB_SE_2025_EUROTRUCKERS.Models;
 using UBB_SE_2025_EUROTRUCKERS.Services;
 using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
-using CommunityToolkit.Mvvm.Input;
+using UBB_SE_2025_EUROTRUCKERS.Views;
 
 namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 {
-    public class OrderViewModel : ViewModelBase
+    public partial class OrderViewModel : ViewModelBase
     {
         private readonly IOrderService _orderService;
         private readonly INavigationService _navigationService;
         private readonly ILoggingService _loggingService;
+        private readonly ICityService _cityService;
 
+        [ObservableProperty]
         private ObservableCollection<Order> _orders = new();
-        public ObservableCollection<Order> Orders
-        {
-            get => _orders;
-            set
-            {
-                _orders = value;
-                OnPropertyChanged();
-            }
-        }
+
+        [ObservableProperty]
+        private ObservableCollection<City> _availableCities = new();
+
+        [ObservableProperty]
+        private Order _newOrder = new();
+
+        [ObservableProperty]
+        private bool _isEditMode;
 
         public OrderViewModel(
             IOrderService orderService,
             INavigationService navigationService,
-            ILoggingService loggingService)
+            ILoggingService loggingService,
+            ICityService cityService)
         {
             _navigationService = navigationService;
             _loggingService = loggingService;
             _orderService = orderService;
+            _cityService = cityService;
 
-            Title = "Orders"; // inherited from ViewModelBase
+            Title = "Orders";
 
             LoadOrdersCommand = new AsyncRelayCommand(LoadOrdersAsync);
             NavigateToDetailsCommand = new RelayCommand<Order>(NavigateToDetails);
-            AddOrderCommand = new AsyncRelayCommand<Order>(AddOrderAsync);
+            AddOrderCommand = new AsyncRelayCommand(NavigateToAddOrder);
             DeleteOrderCommand = new AsyncRelayCommand<Order>(DeleteOrderAsync);
-            UpdateOrderCommand = new AsyncRelayCommand<Order>(UpdateOrderAsync);
+            UpdateOrderCommand = new AsyncRelayCommand<Order>(NavigateToUpdateOrder);
+            NavigateBackCommand = new RelayCommand(NavigateBack);
+            SubmitOrderCommand = new AsyncRelayCommand(SubmitOrderAsync);
 
-            _ = LoadOrdersCommand.ExecuteAsync((object?)null); // Fix CS8625
+            _ = LoadOrdersCommand.ExecuteAsync((object?)null);
+            _ = LoadCitiesAsync();
         }
 
         public IAsyncRelayCommand LoadOrdersCommand { get; }
         public IRelayCommand<Order> NavigateToDetailsCommand { get; }
-        public IAsyncRelayCommand<Order> AddOrderCommand { get; }
-        public IAsyncRelayCommand<Order> DeleteOrderCommand { get; }
-        public IAsyncRelayCommand<Order> UpdateOrderCommand { get; }
+        public IAsyncRelayCommand AddOrderCommand { get; }
+        public IRelayCommand<Order> DeleteOrderCommand { get; }
+        public IRelayCommand<Order> UpdateOrderCommand { get; }
+        public IRelayCommand NavigateBackCommand { get; }
+        public IAsyncRelayCommand SubmitOrderCommand { get; }
+
+        private async Task LoadCitiesAsync()
+        {
+            try
+            {
+                var cities = await _cityService.GetCitiesAsync();
+                AvailableCities.Clear();
+                foreach (var city in cities)
+                {
+                    AvailableCities.Add(city);
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError($"Error loading cities: {ex.Message}");
+            }
+        }
 
         public async Task LoadOrdersAsync()
         {
@@ -66,7 +93,16 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
                 Orders.Clear();
                 var orders = await _orderService.GetOrdersAsync();
                 foreach (var order in orders)
-                    Orders.Add(order);
+                {
+                    if (order.SourceCity != null && order.DestinationCity != null)
+                    {
+                        Orders.Add(order);
+                    }
+                    else
+                    {
+                        _loggingService.LogWarning($"Order {order.OrderId} has missing city data");
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -74,23 +110,62 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             }
         }
 
-        public async Task AddOrderAsync(Order? order)
+        private async Task NavigateToAddOrder()
         {
-            if (order is null)
+            IsEditMode = false;
+            NewOrder = new Order(); // Reset the form
+            _navigationService.NavigateTo<AddOrderView>();
+        }
+
+        private async Task NavigateToUpdateOrder(Order order)
+        {
+            if (order == null) return;
+            
+            IsEditMode = true;
+            NewOrder = new Order
             {
-                _loggingService.LogWarning("Attempted to add a null order");
+                OrderId = order.OrderId,
+                ClientName = order.ClientName,
+                CargoType = order.CargoType,
+                CargoWeight = order.CargoWeight,
+                SourceCity = order.SourceCity,
+                DestinationCity = order.DestinationCity
+            };
+            _navigationService.NavigateTo<AddOrderView>();
+        }
+
+        private void NavigateBack()
+        {
+            _navigationService.NavigateTo<OrdersView>();
+        }
+
+        private async Task SubmitOrderAsync()
+        {
+            if (NewOrder.SourceCity == null || NewOrder.DestinationCity == null)
+            {
+                _loggingService.LogWarning("Cannot submit order: missing city data");
                 return;
             }
 
             try
             {
-                await _orderService.AddOrderAsync(order);
-                Orders.Add(order);
-                _loggingService.LogInformation($"Added order {order.OrderId}");
+                if (IsEditMode)
+                {
+                    await _orderService.UpdateOrderAsync(NewOrder);
+                    _loggingService.LogInformation($"Updated order {NewOrder.OrderId}");
+                }
+                else
+                {
+                    await _orderService.AddOrderAsync(NewOrder);
+                    _loggingService.LogInformation($"Added new order for client {NewOrder.ClientName}");
+                }
+                
+                await LoadOrdersAsync(); // Refresh the list
+                _navigationService.NavigateTo<OrdersView>();
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Failed to add order {order.OrderId}: {ex.Message}", ex);
+                _loggingService.LogError($"Failed to {(IsEditMode ? "update" : "add")} order: {ex.Message}", ex);
             }
         }
 
@@ -105,37 +180,12 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             try
             {
                 await _orderService.DeleteOrderAsync(order.OrderId);
-                Orders.Remove(order);
+                await LoadOrdersAsync(); // Refresh the list
                 _loggingService.LogInformation($"Deleted order {order.OrderId}");
             }
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to delete order {order.OrderId}: {ex.Message}", ex);
-            }
-        }
-
-        public async Task UpdateOrderAsync(Order? order)
-        {
-            if (order is null)
-            {
-                _loggingService.LogWarning("Attempted to update a null order");
-                return;
-            }
-
-            try
-            {
-                await _orderService.UpdateOrderAsync(order);
-                var existingOrder = Orders.FirstOrDefault(o => o.OrderId == order.OrderId);
-                if (existingOrder is not null)
-                {
-                    var index = Orders.IndexOf(existingOrder);
-                    Orders[index] = order;
-                }
-                _loggingService.LogInformation($"Updated order {order.OrderId}");
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError($"Failed to update order {order.OrderId}: {ex.Message}", ex);
             }
         }
 

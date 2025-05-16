@@ -18,9 +18,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Models
         public string CargoType { get; set; }
         [Column("cargo_weight")]
         public double CargoWeight { get; set; }
-        [Column("source_city")]
-        public string SourceCity { get; set; }
-        [Column("destination_city")]
-        public string DestinationCity { get; set; }
+        public City SourceCity { get; set; }
+        public City DestinationCity { get; set; }
     }
 }

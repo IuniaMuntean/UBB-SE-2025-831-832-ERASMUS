@@ -1,4 +1,3 @@
-
 -- Create main schema
 CREATE SCHEMA transport;
 
@@ -88,6 +87,8 @@ CREATE TABLE transport.orders (
     client_name VARCHAR(255) NOT NULL,
     cargo_type VARCHAR(255) NOT NULL,
     cargo_weight DOUBLE PRECISION NOT NULL,
-    source_city VARCHAR(255) NOT NULL,
-    destination_city VARCHAR(255) NOT NULL
+    source_city_id INTEGER NOT NULL,
+    destination_city_id INTEGER NOT NULL,
+    FOREIGN KEY (source_city_id) REFERENCES transport.cities(id),
+    FOREIGN KEY (destination_city_id) REFERENCES transport.cities(id)
 );

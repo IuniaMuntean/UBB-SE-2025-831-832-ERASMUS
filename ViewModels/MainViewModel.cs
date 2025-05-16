@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 using UBB_SE_2025_EUROTRUCKERS.Services;
 using UBB_SE_2025_EUROTRUCKERS.Views;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 
 namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 {
@@ -49,6 +50,24 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         public void SetContentFrame(Frame frame)
         {
             _navigationService.SetContentFrame(frame);
+        }
+
+        [RelayCommand]
+        private void NavigateToOrders()
+        {
+            _navigationService.NavigateTo<OrdersView>();
+        }
+
+        [RelayCommand]
+        private void NavigateToDeliveries()
+        {
+            _navigationService.NavigateTo<DeliveriesView>();
+        }
+
+        [RelayCommand]
+        private void NavigateToResources()
+        {
+            _navigationService.NavigateTo<ResourcesView>();
         }
     }
 }

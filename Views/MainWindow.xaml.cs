@@ -27,6 +27,9 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
             {
                 switch (item.Tag.ToString())
                 {
+                    case "orders":
+                        ViewModel.NavigateToOrdersCommand.Execute(null);
+                        break;
                     case "deliveries":
                         ViewModel.NavigateToDeliveriesCommand.Execute(null);
                         break;

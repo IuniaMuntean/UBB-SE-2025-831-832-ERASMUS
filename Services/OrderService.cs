@@ -19,18 +19,74 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
             _context = db;
         }
 
-        public async Task<List<Order>> GetOrdersAsync() => await _context.orders.ToListAsync();
+        public async Task<List<Order>> GetOrdersAsync()
+        {
+            return await _context.orders
+                .Include(o => o.SourceCity)
+                .Include(o => o.DestinationCity)
+                .ToListAsync();
+        }
 
         public async Task AddOrderAsync(Order order)
         {
+            // Ensure cities exist
+            if (order.SourceCity != null)
+            {
+                var sourceCity = await _context.cities.FindAsync(order.SourceCity.id);
+                if (sourceCity != null)
+                {
+                    order.SourceCity = sourceCity;
+                }
+            }
+
+            if (order.DestinationCity != null)
+            {
+                var destCity = await _context.cities.FindAsync(order.DestinationCity.id);
+                if (destCity != null)
+                {
+                    order.DestinationCity = destCity;
+                }
+            }
+
             _context.orders.Add(order);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateOrderAsync(Order order)
         {
-            _context.orders.Update(order);
-            await _context.SaveChangesAsync();
+            var existingOrder = await _context.orders
+                .Include(o => o.SourceCity)
+                .Include(o => o.DestinationCity)
+                .FirstOrDefaultAsync(o => o.OrderId == order.OrderId);
+
+            if (existingOrder != null)
+            {
+                // Update basic properties
+                existingOrder.ClientName = order.ClientName;
+                existingOrder.CargoType = order.CargoType;
+                existingOrder.CargoWeight = order.CargoWeight;
+
+                // Update city relationships if they've changed
+                if (order.SourceCity != null)
+                {
+                    var sourceCity = await _context.cities.FindAsync(order.SourceCity.id);
+                    if (sourceCity != null)
+                    {
+                        existingOrder.SourceCity = sourceCity;
+                    }
+                }
+
+                if (order.DestinationCity != null)
+                {
+                    var destCity = await _context.cities.FindAsync(order.DestinationCity.id);
+                    if (destCity != null)
+                    {
+                        existingOrder.DestinationCity = destCity;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteOrderAsync(int orderId)
