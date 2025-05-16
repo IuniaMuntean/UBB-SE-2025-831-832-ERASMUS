@@ -22,7 +22,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         private readonly IOrderService _orderService;
         private readonly INavigationService _navigationService;
         private readonly ILoggingService _loggingService;
-        private readonly IMapService _cityService;
+        private readonly IMapService _mapService;
 
         [ObservableProperty]
         private ObservableCollection<Order> _orders = new();
@@ -40,12 +40,12 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             IOrderService orderService,
             INavigationService navigationService,
             ILoggingService loggingService,
-            IMapService cityService)
+            IMapService mapService)
         {
             _navigationService = navigationService;
             _loggingService = loggingService;
             _orderService = orderService;
-            _cityService = cityService;
+            _mapService = mapService;
 
             Title = "Orders";
 
@@ -73,7 +73,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         {
             try
             {
-                var cities = await _cityService.GetCitiesAsync();
+                var cities = await _mapService.GetCitiesAsync();
                 AvailableCities.Clear();
                 foreach (var city in cities)
                 {
@@ -198,7 +198,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             _loggingService.LogDebug($"Navigating to details view for order {order.OrderId}");
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged; // Fix CS8618
+        public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
