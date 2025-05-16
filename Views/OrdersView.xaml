@@ -59,8 +59,11 @@
                                       FontWeight="SemiBold"/>
                             <TextBlock Text="{Binding CargoType}"
                                       Style="{ThemeResource BodyTextBlockStyle}"/>
-                            <TextBlock Text="{Binding CargoWeight, StringFormat='Weight: {0} kg'}"
-                                      Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <TextBlock>
+                                <Run Text="Weight: "/>
+                                <Run Text="{Binding CargoWeight}"/>
+                                <Run Text=" kg"/>
+                            </TextBlock>
                         </StackPanel>
 
                         <!-- Cities -->
