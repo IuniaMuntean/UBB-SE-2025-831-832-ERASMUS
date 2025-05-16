@@ -114,7 +114,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         {
             IsEditMode = false;
             NewOrder = new Order(); // Reset the form
-            _navigationService.NavigateTo<AddOrderView>();
+            _navigationService.NavigateTo<OrderViewModel>();
         }
 
         private async Task NavigateToUpdateOrder(Order order)
@@ -131,12 +131,12 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
                 SourceCity = order.SourceCity,
                 DestinationCity = order.DestinationCity
             };
-            _navigationService.NavigateTo<AddOrderView>();
+            _navigationService.NavigateTo<OrderViewModel>();
         }
 
         private void NavigateBack()
         {
-            _navigationService.NavigateTo<OrdersView>();
+            _navigationService.NavigateTo<OrderViewModel>();
         }
 
         private async Task SubmitOrderAsync()
@@ -161,7 +161,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
                 }
                 
                 await LoadOrdersAsync(); // Refresh the list
-                _navigationService.NavigateTo<OrdersView>();
+                _navigationService.NavigateTo<OrderViewModel>();
             }
             catch (Exception ex)
             {

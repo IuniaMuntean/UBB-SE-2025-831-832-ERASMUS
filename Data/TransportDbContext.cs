@@ -18,6 +18,10 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
         public DbSet<User> users { get; set; }
         public DbSet<Order> orders { get; set; }
 
+        public DbSet<City> cities { get; set; }
+        public DbSet<Road> roads { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
