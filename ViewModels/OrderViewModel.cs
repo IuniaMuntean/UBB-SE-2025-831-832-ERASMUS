@@ -22,7 +22,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         private readonly IOrderService _orderService;
         private readonly INavigationService _navigationService;
         private readonly ILoggingService _loggingService;
-        private readonly ICityService _cityService;
+        private readonly IMapService _cityService;
 
         [ObservableProperty]
         private ObservableCollection<Order> _orders = new();
@@ -40,7 +40,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             IOrderService orderService,
             INavigationService navigationService,
             ILoggingService loggingService,
-            ICityService cityService)
+            IMapService cityService)
         {
             _navigationService = navigationService;
             _loggingService = loggingService;

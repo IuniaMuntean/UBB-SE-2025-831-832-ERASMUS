@@ -2,6 +2,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using UBB_SE_2025_EUROTRUCKERS.ViewModels;
 using System;
+using System.Threading.Tasks;
+using Microsoft.UI.Xaml;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Views
 {
