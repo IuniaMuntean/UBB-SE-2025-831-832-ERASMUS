@@ -56,6 +56,7 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<ILoggingService, LoggingService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddSingleton<IResourceServices,  ResourceServices>();
             services.AddSingleton<IMapService, MapService>();
             services.AddLogging(configure => configure.AddDebug());
@@ -67,6 +68,7 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddTransient<MainViewModel>();
             services.AddTransient<DeliveriesViewModel>();
             services.AddTransient<DetailsViewModel>();
+            services.AddTransient<OrderViewModel>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<ResourcesViewModel>();
