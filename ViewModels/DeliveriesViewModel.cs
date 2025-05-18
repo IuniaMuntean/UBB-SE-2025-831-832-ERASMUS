@@ -67,7 +67,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             if (delivery != null)
             {
                 _navigationService.NavigateToWithParameter<DetailsViewModel>(delivery);
-                _loggingService.LogDebug($"Navigating to details view for delivery {delivery.delivery_id}");
+                _loggingService.LogDebug($"Navigating to details view for delivery {delivery.DeliveryId}");
             }
         }
     }

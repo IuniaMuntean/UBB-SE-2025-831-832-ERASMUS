@@ -17,15 +17,14 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         private string _title = "Transport Management";
 
         public ICommand LogOutCommand { get; }
-
         public ICommand NavigateToMapViewCommand { get; }
-
+        public ICommand NavigateToOrdersCommand { get; }
+        public ICommand NavigateToDeliveriesCommand { get; }
+        public ICommand NavigateToResourcesCommand { get; }
 
         public MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-
-            
 
             LogOutCommand = new RelayCommand(() =>
             {
@@ -36,7 +35,9 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
                 _navigationService.NavigateTo<MapViewModel>();
             });
 
-            
+            NavigateToOrdersCommand = new RelayCommand(NavigateToOrders);
+            NavigateToDeliveriesCommand = new RelayCommand(NavigateToDeliveries);
+            NavigateToResourcesCommand = new RelayCommand(NavigateToResources);
         }
 
         public void SetContentFrame(Frame frame)
@@ -44,19 +45,16 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             _navigationService.SetContentFrame(frame);
         }
 
-        [RelayCommand]
         private void NavigateToOrders()
         {
             _navigationService.NavigateTo<OrderViewModel>();
         }
 
-        [RelayCommand]
         private void NavigateToDeliveries()
         {
             _navigationService.NavigateTo<DeliveriesViewModel>();
         }
 
-        [RelayCommand]
         private void NavigateToResources()
         {
             _navigationService.NavigateTo<ResourcesViewModel>();

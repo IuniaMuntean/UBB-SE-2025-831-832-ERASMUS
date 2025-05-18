@@ -2,6 +2,7 @@
 
 namespace UBB_SE_2025_EUROTRUCKERS.Models
 {
+    
     public class Driver
     {
         public int DriverId { get; set; }

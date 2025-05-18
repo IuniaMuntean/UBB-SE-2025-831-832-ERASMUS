@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using UBB_SE_2025_EUROTRUCKERS.Services;
 using UBB_SE_2025_EUROTRUCKERS.Data;
 using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
+using UBB_SE_2025_EUROTRUCKERS.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

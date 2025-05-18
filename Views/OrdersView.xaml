@@ -19,11 +19,13 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10">
             <TextBlock Text="Orders Management" 
                       FontSize="24" 
-                      FontWeight="SemiBold"/>
+                      FontWeight="SemiBold"
+                      Foreground="Black"/>
             <Button Content="Add New Order" 
                     Command="{Binding AddOrderCommand}"
                     Margin="20,0,0,0"
-                    Padding="15,5"/>
+                    Padding="15,5"
+                    Foreground="Black"/>
         </StackPanel>
 
         <!-- Orders List -->
@@ -56,10 +58,12 @@
                         <StackPanel Grid.Row="0">
                             <TextBlock Text="{Binding ClientName}"
                                       FontSize="18"
-                                      FontWeight="SemiBold"/>
+                                      FontWeight="SemiBold"
+                                      Foreground="White"/>
                             <TextBlock Text="{Binding CargoType}"
-                                      Style="{ThemeResource BodyTextBlockStyle}"/>
-                            <TextBlock>
+                                      Style="{ThemeResource BodyTextBlockStyle}"
+                                      Foreground="White"/>
+                            <TextBlock Foreground="White">
                                 <Run Text="Weight: "/>
                                 <Run Text="{Binding CargoWeight}"/>
                                 <Run Text=" kg"/>
@@ -69,10 +73,12 @@
                         <!-- Cities -->
                         <StackPanel Grid.Row="1" Margin="0,10,0,0">
                             <TextBlock Text="{Binding SourceCity.name}"
-                                      Style="{ThemeResource BodyTextBlockStyle}"/>
+                                      Style="{ThemeResource BodyTextBlockStyle}"
+                                      Foreground="White"/>
                             <SymbolIcon Symbol="Forward" HorizontalAlignment="Right"/>
                             <TextBlock Text="{Binding DestinationCity.name}"
-                                      Style="{ThemeResource BodyTextBlockStyle}"/>
+                                      Style="{ThemeResource BodyTextBlockStyle}"
+                                      Foreground="White"/>
                         </StackPanel>
 
                         <!-- Action Buttons -->
