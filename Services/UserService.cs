@@ -21,7 +21,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
             {
                 Console.WriteLine("Checking if user exists...");
 
-                if (await _db.users.AnyAsync(u => u.Username == user.Username))
+                if (await _db.Users.AnyAsync(u => u.Username == user.Username))
                 {
                     Console.WriteLine("User already exists.");
                     return false;
@@ -31,8 +31,8 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
                 Console.WriteLine("Adding user...");
-                _db.users.Add(user);
-
+                _db.Users.Add(user);
+                
                 Console.WriteLine("Saving changes...");
                 await _db.SaveChangesAsync();
 
@@ -48,7 +48,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
 
         public async Task<bool> LoginAsync(User user)
         {
-            var existingUser = await _db.users.FirstOrDefaultAsync(u => u.Username == user.Username);
+            var existingUser = await _db.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
             return existingUser != null && BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password);
         }
     }

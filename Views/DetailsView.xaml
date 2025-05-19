@@ -10,39 +10,150 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:DetailsViewModel, IsDesignTimeCreatable=True}">
 
     <Grid Padding="20">
-        <StackPanel>
-            <TextBlock Text="Detailed view of selected delivery:" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
-            <TextBlock Text="ID:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.delivery_id}" Margin="0,0,0,10"/>
-            <TextBlock Text="Reference number:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.reference_number}" Margin="0,0,0,10"/>
-            <TextBlock Text="Company:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.company_id}" Margin="0,0,0,10"/>
-            <TextBlock Text="Departure address:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.departure_address}" Margin="0,0,0,10"/>
-            <TextBlock Text="Departure time:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.departure_time}" Margin="0,0,0,10"/>
-            <TextBlock Text="Destination address:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.destination_address}" Margin="0,0,0,10"/>
-            <TextBlock Text="ETA:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.estimated_time_arrival}" Margin="0,0,0,10"/>
-            <TextBlock Text="Status:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.status}" Margin="0,0,0,10"/>
-            <TextBlock Text="Driver:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.driver_id}" Margin="0,0,0,10"/>
-            <TextBlock Text="Truck:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.truck_id}" Margin="0,0,0,10"/>
-            <TextBlock Text="Cargo:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.cargo_description}" Margin="0,0,0,10"/>
-            <TextBlock Text="Weight (Kg):" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.weight_kg}" Margin="0,0,0,10"/>
-            <TextBlock Text="Destination address:" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.destination_address}" Margin="0,0,0,10"/>
-            <TextBlock Text="Total distance (Km):" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.total_distance_km}" Margin="0,0,0,10"/>
-            <TextBlock Text="Fee (�):" FontWeight="Bold"/>
-            <TextBlock Text="{Binding SelectedDelivery.fee_euros}" Margin="0,0,0,10"/>
-        </StackPanel>
+        <ScrollViewer>
+            <StackPanel>
+                <!-- Header -->
+                <TextBlock Text="Delivery Details" 
+                          Style="{ThemeResource TitleLargeTextBlockStyle}"
+                          Margin="0,0,0,20"/>
+
+                <!-- Delivery ID -->
+                <TextBlock Text="Delivery ID:" 
+                          Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <TextBlock Text="{Binding SelectedDelivery.DeliveryId}" 
+                          Style="{ThemeResource BodyTextBlockStyle}"
+                          Margin="0,0,0,15"/>
+
+                <!-- Order Information -->
+                <TextBlock Text="Order Information" 
+                          Style="{ThemeResource SubtitleTextBlockStyle}"
+                          Margin="0,10,0,5"/>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Client:" Grid.Row="0" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.Order.ClientName}" Grid.Row="0" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    
+                    <TextBlock Text="Cargo Type:" Grid.Row="1" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.Order.CargoType}" Grid.Row="1" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    
+                    <TextBlock Text="Cargo Weight:" Grid.Row="2" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.Order.CargoWeight}" Grid.Row="2" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </Grid>
+
+                <!-- Route Information -->
+                <TextBlock Text="Route Information" 
+                          Style="{ThemeResource SubtitleTextBlockStyle}"
+                          Margin="0,10,0,5"/>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="From:" Grid.Row="0" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.Order.SourceCity.name}" Grid.Row="0" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    
+                    <TextBlock Text="To:" Grid.Row="1" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.Order.DestinationCity.name}" Grid.Row="1" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </Grid>
+
+                <!-- Schedule Information -->
+                <TextBlock Text="Schedule" 
+                          Style="{ThemeResource SubtitleTextBlockStyle}"
+                          Margin="0,10,0,5"/>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Departure:" Grid.Row="0" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.DepartureTime}" Grid.Row="0" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    
+                    <TextBlock Text="Estimated Arrival:" Grid.Row="1" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.EstimatedTimeArrival}" Grid.Row="1" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </Grid>
+
+                <!-- Resources Information -->
+                <TextBlock Text="Resources" 
+                          Style="{ThemeResource SubtitleTextBlockStyle}"
+                          Margin="0,10,0,5"/>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Driver:" Grid.Row="0" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}">
+                        <Run Text="{Binding SelectedDelivery.Driver.FirstName}"/>
+                        <Run Text=" "/>
+                        <Run Text="{Binding SelectedDelivery.Driver.LastName}"/>
+                    </TextBlock>
+                    
+                    <TextBlock Text="Truck:" Grid.Row="1" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.Truck.LicensePlate}" Grid.Row="1" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </Grid>
+
+                <!-- Delivery Details -->
+                <TextBlock Text="Delivery Details" 
+                          Style="{ThemeResource SubtitleTextBlockStyle}"
+                          Margin="0,10,0,5"/>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Status:" Grid.Row="0" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.Status}" 
+                              Grid.Row="0" Grid.Column="1" 
+                              Style="{ThemeResource BodyTextBlockStyle}"
+                              Foreground="{Binding SelectedDelivery.Status, Converter={StaticResource StatusToColorConverter}}"/>
+                    
+                    <TextBlock Text="Distance:" Grid.Row="1" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.TotalDistanceKm, Converter={StaticResource DistanceFormatConverter}}" 
+                              Grid.Row="1" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    
+                    <TextBlock Text="Fee:" Grid.Row="2" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding SelectedDelivery.FeeEuros, Converter={StaticResource CurrencyFormatConverter}}" 
+                              Grid.Row="2" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </Grid>
+
+                <!-- Back Button -->
+                <Button Content="Back to Deliveries" 
+                        Command="{Binding NavigateBackCommand}"
+                        HorizontalAlignment="Left"
+                        Margin="0,20,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
 

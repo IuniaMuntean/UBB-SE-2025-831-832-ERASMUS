@@ -1,15 +1,5 @@
-
 -- Create main schema
 CREATE SCHEMA transport;
-
--- Companies table
-CREATE TABLE transport.companies (
-    company_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    address TEXT NOT NULL,
-    phone VARCHAR(20),
-    email VARCHAR(100)
-);
 
 -- Drivers table
 CREATE TABLE transport.drivers (
@@ -36,22 +26,53 @@ CREATE TABLE transport.trucks (
     next_maintenance_date DATE
 );
 
+-- Cities table
+CREATE TABLE transport.cities
+(
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    x FLOAT,
+    y FLOAT    
+);
+
+-- Roads table
+CREATE TABLE transport.roads
+(
+    id int,
+    startcityid INT,
+    endcityid INT,
+    distance FLOAT,
+    FOREIGN KEY (startcityid) REFERENCES transport.cities(id),
+    FOREIGN KEY (endcityid) REFERENCES transport.cities(id),
+    PRIMARY KEY (startcityid, endcityid)
+);
+
+-- Orders table
+CREATE TABLE transport.orders (
+    order_id SERIAL PRIMARY KEY,
+    client_name VARCHAR(255) NOT NULL,
+    cargo_type VARCHAR(255) NOT NULL,
+    cargo_weight DOUBLE PRECISION NOT NULL,
+    source_city_id INTEGER NOT NULL,
+    destination_city_id INTEGER NOT NULL,
+    FOREIGN KEY (source_city_id) REFERENCES transport.cities(id),
+    FOREIGN KEY (destination_city_id) REFERENCES transport.cities(id)
+);
+
 -- Deliveries table
 CREATE TABLE transport.deliveries (
     delivery_id SERIAL PRIMARY KEY,
-    reference_number VARCHAR(20) UNIQUE NOT NULL,
-    departure_address TEXT NOT NULL,
-    destination_address TEXT NOT NULL,
+    order_id INTEGER NOT NULL,
+    driver_id INTEGER,
+    truck_id INTEGER,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('PLANNED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')),
     departure_time TIMESTAMP WITH TIME ZONE NOT NULL,
     estimated_time_arrival TIMESTAMP WITH TIME ZONE NOT NULL,
-    status VARCHAR(20) NOT NULL CHECK (status IN ('PLANNED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')),
-    driver_id INTEGER REFERENCES transport.drivers(driver_id),
-    truck_id INTEGER REFERENCES transport.trucks(truck_id),
-    company_id INTEGER REFERENCES transport.companies(company_id),
-    cargo_description TEXT,
-    weight_kg DECIMAL(10, 2),
-    total_distance_km DECIMAL(10, 2),
-    fee_euros DECIMAL(10, 2)
+    total_distance_km DECIMAL(10, 2) NOT NULL,
+    fee_euros DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES transport.orders(order_id),
+    FOREIGN KEY (driver_id) REFERENCES transport.drivers(driver_id),
+    FOREIGN KEY (truck_id) REFERENCES transport.trucks(truck_id)
 );
 
 -- Users table
@@ -59,25 +80,4 @@ CREATE TABLE transport.users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
-);
-
--- Cities table
-CREATE TABLE transport.cities
-(
-	id INT PRIMARY KEY,
-	name VARCHAR(255),
-	x FLOAT,
-	y FLOAT	
-);
-
--- Roads table
-CREATE TABLE transport.roads
-(
-    id int,
-	startcityid INT,
-	endcityid INT,
-	distance FLOAT,
-	FOREIGN KEY (startcityid) REFERENCES transport.cities(id),
-	FOREIGN KEY (endcityid) REFERENCES transport.cities(id),
-	PRIMARY KEY (startcityid, endcityid)
 );

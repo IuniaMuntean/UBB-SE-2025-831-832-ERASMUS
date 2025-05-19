@@ -16,7 +16,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
             _dbSet = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
+        public virtual async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
 
         public async Task<T> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
 

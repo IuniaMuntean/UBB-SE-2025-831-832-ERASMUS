@@ -20,56 +20,63 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" Padding="20,10">
             <TextBlock Text="Deliveries Management" 
                       FontSize="24" 
-                      FontWeight="SemiBold"/>
+                      FontWeight="SemiBold"
+                      Foreground="Black"/>
 
             <Button Content="Refresh" 
                     Command="{Binding LoadDeliveriesCommand}"
                     Margin="20,0,0,0"
-                    Padding="15,5"/>
+                    Padding="15,5"
+                    Foreground="Black"/>
         </StackPanel>
 
         <!-- Deliveries list -->
-        <ScrollView Grid.Row="1">
-        <controls:ItemsRepeater 
-                               ItemsSource="{Binding Deliveries}"
-                               Margin="20">
-            <controls:ItemsRepeater.Layout>
-                <controls:UniformGridLayout ItemsStretch="Fill"
-                                          MinItemWidth="300"
-                                          MaximumRowsOrColumns="3"/>
-            </controls:ItemsRepeater.Layout>
+        <ScrollViewer Grid.Row="1">
+            <controls:ItemsRepeater 
+                ItemsSource="{Binding Deliveries}"
+                Margin="20">
+                <controls:ItemsRepeater.Layout>
+                    <controls:UniformGridLayout ItemsStretch="Fill"
+                                              MinItemWidth="300"
+                                              MaximumRowsOrColumns="3"/>
+                </controls:ItemsRepeater.Layout>
 
-            <controls:ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="models:Delivery">
-                    <Border Background="#C0000000"
-                            BorderBrush="{ThemeResource CardStrokeColorDefault}"
-                            BorderThickness="1"
-                            CornerRadius="8"
-                            Padding="15"
-                            Margin="10"
-                            PointerPressed="DeliveryCard_PointerPressed">
-                        <StackPanel>
-                            <TextBlock Text="{Binding reference_number}"
-                                      FontSize="18"
-                                      FontWeight="SemiBold"/>
+                <controls:ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="models:Delivery">
+                        <Border Background="White"
+                                BorderBrush="LightGray"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="15"
+                                Margin="10"
+                                PointerPressed="DeliveryCard_PointerPressed">
+                            <StackPanel>
+                                <TextBlock Text="{Binding DeliveryId}"
+                                          FontSize="18"
+                                          FontWeight="SemiBold"
+                                          Foreground="Black"/>
 
-                            <StackPanel Margin="0,10,0,0">
-                                <TextBlock Text="{Binding departure_address}" 
-                                           Style="{ThemeResource BodyTextBlockStyle}"/>
-                                <SymbolIcon Symbol="Forward" HorizontalAlignment="Right"/>
-                                <TextBlock Text="{Binding destination_address}" 
-                                           Style="{ThemeResource BodyTextBlockStyle}"/>
+                                <StackPanel Margin="0,10,0,0">
+                                    <TextBlock Text="{Binding Order.SourceCity.name}" 
+                                              Style="{ThemeResource BodyTextBlockStyle}"
+                                              Foreground="Black"/>
+                                    <SymbolIcon Symbol="Forward" 
+                                               HorizontalAlignment="Right"
+                                               Foreground="Black"/>
+                                    <TextBlock Text="{Binding Order.DestinationCity.name}" 
+                                              Style="{ThemeResource BodyTextBlockStyle}"
+                                              Foreground="Black"/>
+                                </StackPanel>
+
+                                <TextBlock Text="{Binding Status}"
+                                          Margin="0,5,0,0"
+                                          Foreground="Black"/>
                             </StackPanel>
-
-                            <TextBlock Text="{Binding status}"
-                                      Margin="0,5,0,0"
-                                      Foreground="{Binding status, Converter={StaticResource StatusToColorConverter}}"/>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </controls:ItemsRepeater.ItemTemplate>
-        </controls:ItemsRepeater>
-        </ScrollView>
+                        </Border>
+                    </DataTemplate>
+                </controls:ItemsRepeater.ItemTemplate>
+            </controls:ItemsRepeater>
+        </ScrollViewer>
 
         <!-- Progress Ring when loading -->
         <controls:ProgressRing Grid.Row="1"

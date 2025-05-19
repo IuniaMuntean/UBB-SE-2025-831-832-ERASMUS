@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 using UBB_SE_2025_EUROTRUCKERS.Services;
 using UBB_SE_2025_EUROTRUCKERS.Views;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 
 namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 {
@@ -15,21 +16,15 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         [ObservableProperty]
         private string _title = "Transport Management";
 
-        public ICommand NavigateToDeliveriesCommand { get; }
         public ICommand LogOutCommand { get; }
-
         public ICommand NavigateToMapViewCommand { get; }
-
+        public ICommand NavigateToOrdersCommand { get; }
+        public ICommand NavigateToDeliveriesCommand { get; }
         public ICommand NavigateToResourcesCommand { get; }
 
         public MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-
-            NavigateToDeliveriesCommand = new RelayCommand(() =>
-            {
-                _navigationService.NavigateTo<DeliveriesViewModel>();
-            });
 
             LogOutCommand = new RelayCommand(() =>
             {
@@ -40,15 +35,29 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
                 _navigationService.NavigateTo<MapViewModel>();
             });
 
-            NavigateToResourcesCommand = new RelayCommand(() =>
-            {
-                _navigationService.NavigateTo<ResourcesViewModel>();
-            });
+            NavigateToOrdersCommand = new RelayCommand(NavigateToOrders);
+            NavigateToDeliveriesCommand = new RelayCommand(NavigateToDeliveries);
+            NavigateToResourcesCommand = new RelayCommand(NavigateToResources);
         }
 
         public void SetContentFrame(Frame frame)
         {
             _navigationService.SetContentFrame(frame);
+        }
+
+        private void NavigateToOrders()
+        {
+            _navigationService.NavigateTo<OrderViewModel>();
+        }
+
+        private void NavigateToDeliveries()
+        {
+            _navigationService.NavigateTo<DeliveriesViewModel>();
+        }
+
+        private void NavigateToResources()
+        {
+            _navigationService.NavigateTo<ResourcesViewModel>();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using UBB_SE_2025_EUROTRUCKERS.Services;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 using UBB_SE_2025_EUROTRUCKERS.ViewModels;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Views
@@ -26,6 +27,9 @@ namespace UBB_SE_2025_EUROTRUCKERS.Views
             {
                 switch (item.Tag.ToString())
                 {
+                    case "orders":
+                        ViewModel.NavigateToOrdersCommand.Execute(null);
+                        break;
                     case "deliveries":
                         ViewModel.NavigateToDeliveriesCommand.Execute(null);
                         break;

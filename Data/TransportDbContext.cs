@@ -10,49 +10,55 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
         {
         }
 
-
-        public DbSet<Company> companies { get; set; }
-        public DbSet<Driver> drivers { get; set; }
-        public DbSet<Truck> trucks { get; set; }
-        public DbSet<Delivery> deliveries { get; set; }
-        public DbSet<User> users { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Truck> Trucks { get; set; }
         public DbSet<City> cities { get; set; }
         public DbSet<Road> roads { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuraciones del modelo
-            modelBuilder.Entity<Delivery>()
-                .HasKey(d => d.delivery_id);
+            modelBuilder.HasDefaultSchema("transport");
 
-            modelBuilder.Entity<Delivery>()
-                .HasOne(d => d.driver)
-                .WithMany()
-                .HasForeignKey(d => d.driver_id);
+            modelBuilder.Entity<Delivery>(entity =>
+            {
+                entity.ToTable("deliveries");
+                entity.HasKey(d => d.DeliveryId);
+                entity.Property(d => d.DeliveryId).HasColumnName("delivery_id");
+                entity.Property(d => d.Status).HasColumnName("status");
+                entity.Property(d => d.DepartureTime).HasColumnName("departure_time");
+                entity.Property(d => d.EstimatedTimeArrival).HasColumnName("estimated_time_arrival");
+                entity.Property(d => d.TotalDistanceKm).HasColumnName("total_distance_km");
+                entity.Property(d => d.FeeEuros).HasColumnName("fee_euros");
 
-            modelBuilder.Entity<Delivery>()
-                .HasOne(d => d.truck)
-                .WithMany()
-                .HasForeignKey(d => d.truck_id);
+                entity.HasOne(d => d.Order)
+                    .WithMany()
+                    .HasForeignKey("order_id")
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Delivery>()
-                .HasOne(d => d.company)
-                .WithMany()
-                .HasForeignKey(d => d.company_id);
+                entity.HasOne(d => d.Driver)
+                    .WithMany()
+                    .HasForeignKey("driver_id")
+                    .OnDelete(DeleteBehavior.Restrict);
 
+                entity.HasOne(d => d.Truck)
+                    .WithMany()
+                    .HasForeignKey("truck_id")
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
             modelBuilder.Entity<Delivery>().ToTable("deliveries","transport");
 
 
             // User configuration
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Username).IsRequired();
-                entity.Property(e => e.Password).IsRequired();
+                entity.ToTable("users");
+                entity.HasKey(u => u.Id);
+                entity.Property(u => u.Username).IsRequired();
+                entity.Property(u => u.Password).IsRequired();
             });
-
-            modelBuilder.Entity<User>().ToTable("users", "transport");
-
 
             // Cities and Roads Config
             modelBuilder.Entity<City>(city =>
@@ -73,14 +79,65 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
                 .WithMany(c => c.Roads)
                 .HasForeignKey(r => r.startCityID)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             modelBuilder.Entity<Road>()
             .HasOne(r => r.EndCity)
             .WithMany()
             .HasForeignKey(r => r.endCityID)
             .OnDelete(DeleteBehavior.Restrict);
-            
+
             modelBuilder.Entity<Road>().ToTable("roads", "transport");
+
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable("orders");
+                entity.HasKey(o => o.OrderId);
+                entity.Property(o => o.ClientName).IsRequired();
+                entity.Property(o => o.CargoType).IsRequired();
+                entity.Property(o => o.CargoWeight).IsRequired();
+
+                entity.HasOne(o => o.SourceCity)
+                    .WithMany()
+                    .HasForeignKey("source_city_id")
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(o => o.DestinationCity)
+                    .WithMany()
+                    .HasForeignKey("destination_city_id")
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Driver>(entity =>
+            {
+                entity.ToTable("drivers");
+                entity.HasKey(d => d.DriverId);
+                entity.Property(d => d.DriverId).HasColumnName("driver_id");
+                entity.Property(d => d.FirstName).IsRequired().HasColumnName("first_name");
+                entity.Property(d => d.LastName).IsRequired().HasColumnName("last_name");
+                entity.Property(d => d.LicenseNumber).IsRequired().HasColumnName("license_number");
+                entity.Property(d => d.Phone).HasColumnName("phone");
+                entity.Property(d => d.Email).HasColumnName("email");
+                entity.Property(d => d.HireDate).IsRequired().HasColumnName("hire_date");
+                entity.Property(d => d.Status).IsRequired().HasColumnName("status");
+            });
+
+            modelBuilder.Entity<Truck>(entity =>
+            {
+                entity.ToTable("trucks");
+                entity.HasKey(t => t.TruckId);
+                entity.Property(t => t.TruckId).HasColumnName("truck_id");
+                entity.Property(t => t.LicensePlate).IsRequired().HasColumnName("license_plate");
+                entity.Property(t => t.Make).IsRequired().HasColumnName("make");
+                entity.Property(t => t.Model).IsRequired().HasColumnName("model");
+                entity.Property(t => t.Year).IsRequired().HasColumnName("year");
+                entity.Property(t => t.CapacityKg).IsRequired().HasColumnName("capacity_kg");
+                entity.Property(t => t.Status).IsRequired().HasColumnName("status");
+                entity.Property(t => t.LastMaintenanceDate).HasColumnName("last_maintenance_date");
+                entity.Property(t => t.NextMaintenanceDate).HasColumnName("next_maintenance_date");
+            });
         }
     }
 }
+
+

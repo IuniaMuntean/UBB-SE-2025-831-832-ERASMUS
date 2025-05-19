@@ -27,7 +27,7 @@
             <controls:NavigationView.MenuItems>
                 <controls:NavigationViewItem 
                     Content="Orders" 
-                    Icon="Home" 
+                    Icon="List" 
                     Tag="orders"/>
                 
                 <controls:NavigationViewItem 

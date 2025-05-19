@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using UBB_SE_2025_EUROTRUCKERS.Services;
 using UBB_SE_2025_EUROTRUCKERS.Models;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 
 namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 {
@@ -66,7 +67,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             if (delivery != null)
             {
                 _navigationService.NavigateToWithParameter<DetailsViewModel>(delivery);
-                _loggingService.LogDebug($"Navigating to details view for delivery {delivery.delivery_id}");
+                _loggingService.LogDebug($"Navigating to details view for delivery {delivery.DeliveryId}");
             }
         }
     }

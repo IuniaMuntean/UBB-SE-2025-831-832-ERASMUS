@@ -11,6 +11,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using UBB_SE_2025_EUROTRUCKERS.Services;
 using UBB_SE_2025_EUROTRUCKERS.Data;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
+using UBB_SE_2025_EUROTRUCKERS.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -55,6 +57,7 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<ILoggingService, LoggingService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddSingleton<IResourceServices,  ResourceServices>();
             services.AddSingleton<IMapService, MapService>();
             services.AddLogging(configure => configure.AddDebug());
@@ -66,6 +69,7 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddTransient<MainViewModel>();
             services.AddTransient<DeliveriesViewModel>();
             services.AddTransient<DetailsViewModel>();
+            services.AddTransient<OrderViewModel>();
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<ResourcesViewModel>();

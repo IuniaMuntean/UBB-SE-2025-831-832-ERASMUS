@@ -4,17 +4,11 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using UBB_SE_2025_EUROTRUCKERS.ViewModels;
 using UBB_SE_2025_EUROTRUCKERS.Views;
+using UBB_SE_2025_EUROTRUCKERS.Services.interfaces;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Services
 {
-    public interface INavigationService
-    {
-        void SetContentFrame(Frame frame);
-        void NavigateTo<TViewModel>() where TViewModel : ViewModelBase;
-        void NavigateToWithParameter<TViewModel>(object parameter) where TViewModel : ViewModelBase;
-        void GoBack();
-        bool CanGoBack();
-    }
+    
 
     public class NavigationService : INavigationService
     {
@@ -34,7 +28,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
         public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
         {
             if (_contentFrame == null)
-                throw new InvalidOperationException("ContentFrame no ha sido establecido. Llama a SetContentFrame primero.");
+                throw new InvalidOperationException("ContentFrame has not been set. Call SetContentFrame first.");
 
             var viewType = GetViewTypeForViewModel(typeof(TViewModel));
             _contentFrame.Navigate(viewType);
@@ -43,15 +37,15 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
         public void NavigateToWithParameter<TViewModel>(object parameter) where TViewModel : ViewModelBase
         {
             if (_contentFrame == null)
-                throw new InvalidOperationException("ContentFrame no ha sido establecido");
+                throw new InvalidOperationException("ContentFrame has not been set");
 
             var viewType = GetViewTypeForViewModel(typeof(TViewModel));
 
             if (viewType == null)
-                throw new InvalidOperationException($"No se encontró la vista correspondiente para {typeof(TViewModel).FullName}");
+                throw new InvalidOperationException($"Could not find the corresponding view for {typeof(TViewModel).FullName}");
 
             if (parameter == null)
-                throw new ArgumentNullException(nameof(parameter), "El parámetro no puede ser nulo");
+                throw new ArgumentNullException(nameof(parameter), "Parameter cannot be null");
 
             _contentFrame.Navigate(viewType, parameter);
         }
@@ -71,13 +65,26 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
 
         private Type GetViewTypeForViewModel(Type viewModelType)
         {
-            var viewName = viewModelType.FullName.Replace("ViewModel", "View");
-            var viewAssemblyName = viewModelType.Assembly.FullName;
-            var viewTypeName = $"{viewName}, {viewAssemblyName}";
-            var viewType = Type.GetType(viewTypeName);
+            // Get the base namespace by removing the ViewModels part
+            var baseNamespace = viewModelType.Namespace.Replace("ViewModels", "");
+            
+            // Try singular form first
+            var singularViewName = $"{baseNamespace}Views.{viewModelType.Name.Replace("ViewModel", "View")}";
+            var viewType = Type.GetType(singularViewName + ", " + viewModelType.Assembly.FullName);
+
+            // If not found, try plural form
+            if (viewType == null)
+            {
+                var pluralViewName = $"{baseNamespace}Views.{viewModelType.Name.Replace("ViewModel", "sView")}";
+                viewType = Type.GetType(pluralViewName + ", " + viewModelType.Assembly.FullName);
+            }
 
             if (viewType == null)
-                throw new ArgumentException($"No se encontró la vista correspondiente para {viewModelType}");
+            {
+                var attemptedSingular = $"{baseNamespace}Views.{viewModelType.Name.Replace("ViewModel", "View")}";
+                var attemptedPlural = $"{baseNamespace}Views.{viewModelType.Name.Replace("ViewModel", "sView")}";
+                throw new ArgumentException($"Could not find the corresponding view for {viewModelType}. Attempted to find {attemptedSingular} and {attemptedPlural}");
+            }
 
             return viewType;
         }

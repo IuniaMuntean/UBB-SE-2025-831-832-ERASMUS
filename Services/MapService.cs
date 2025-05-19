@@ -33,28 +33,28 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
 
         public async Task<List<City>> GetCitiesAsync()
         {
-            return await _transportDbContext.cities
+            return await _transportDbContext.Cities
                 //.Include(c => c)
                 .ToListAsync();
         }
 
         public async Task<City> GetCityByIdAsync(int id)
         {
-            return await _transportDbContext.cities
+            return await _transportDbContext.Cities
                 //.Include(c => c.City)
                 .FirstOrDefaultAsync(c => c.id == id);
         }
 
         public async Task<Road> GetRoadByIdAsync(int id)
         {
-            return await _transportDbContext.roads
+            return await _transportDbContext.Roads
                 //.Include(r => r.Road)
                 .FirstOrDefaultAsync(r => r.id == id);
         }
 
         public async Task<List<Road>> GetRoadsAsync()
         {
-            return await _transportDbContext.roads
+            return await _transportDbContext.Roads
                 //.Include(c => c.Road)
                 .ToListAsync();
         }
@@ -86,15 +86,15 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
             outbound = new Dictionary<int, HashSet<int>>();
             inbound = new Dictionary<int, HashSet<int>>();
 
-            cities = _transportDbContext.cities.ToDictionary(c => c.id, c => c);
+            cities = _transportDbContext.Cities.ToDictionary(c => c.id, c => c);
             foreach (var city in cities.Values)
             {
                 outbound.Add(city.id, new HashSet<int>());
                 inbound.Add(city.id, new HashSet<int>());
             }
-            ids = _transportDbContext.cities.ToDictionary(c => c, c => c.id);
+            ids = _transportDbContext.Cities.ToDictionary(c => c, c => c.id);
 
-            edges = _transportDbContext.roads.ToHashSet<Road>();
+            edges = _transportDbContext.Roads.ToHashSet<Road>();
             foreach (Road road in edges) { 
                 outbound[road.startCityID].Add(road.endCityID);
                 inbound[road.endCityID].Add(road.startCityID);
