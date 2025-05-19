@@ -32,7 +32,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
 
                 Console.WriteLine("Adding user...");
                 _db.Users.Add(user);
-
+                
                 Console.WriteLine("Saving changes...");
                 await _db.SaveChangesAsync();
 

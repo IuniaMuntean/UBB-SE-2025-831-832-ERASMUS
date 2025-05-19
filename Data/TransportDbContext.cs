@@ -12,11 +12,11 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
 
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Road> Roads { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Truck> Trucks { get; set; }
+        public DbSet<City> cities { get; set; }
+        public DbSet<Road> roads { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,10 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
                     .HasForeignKey("truck_id")
                     .OnDelete(DeleteBehavior.Restrict);
             });
+            modelBuilder.Entity<Delivery>().ToTable("deliveries","transport");
 
+
+            // User configuration
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
@@ -84,6 +87,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Road>().ToTable("roads", "transport");
+
 
             modelBuilder.Entity<Order>(entity =>
             {
