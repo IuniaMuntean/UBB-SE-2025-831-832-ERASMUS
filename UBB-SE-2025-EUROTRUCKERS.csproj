@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Models\Graph.cs" />
+    <Compile Remove="Services\IUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Assets\LockScreenLogo.scale-200.png" />
