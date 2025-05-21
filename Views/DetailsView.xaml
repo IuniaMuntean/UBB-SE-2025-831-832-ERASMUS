@@ -7,11 +7,12 @@
     xmlns:viewmodels="using:UBB_SE_2025_EUROTRUCKERS.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     mc:Ignorable="d"
+    RequestedTheme="Dark"
     d:DataContext="{d:DesignInstance Type=viewmodels:DetailsViewModel, IsDesignTimeCreatable=True}">
 
     <Grid Padding="20">
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Background="#80000000">
                 <!-- Header -->
                 <TextBlock Text="Delivery Details" 
                           Style="{ThemeResource TitleLargeTextBlockStyle}"
@@ -150,6 +151,7 @@
                 <!-- Back Button -->
                 <Button Content="Back to Deliveries" 
                         Command="{Binding NavigateBackCommand}"
+                        Click="BackButton_Click"
                         HorizontalAlignment="Left"
                         Margin="0,20,0,0"/>
             </StackPanel>

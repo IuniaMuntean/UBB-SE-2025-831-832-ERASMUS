@@ -91,12 +91,19 @@ namespace UBB_SE_2025_EUROTRUCKERS.Services
 
         public async Task DeleteOrderAsync(int orderId)
         {
+            var deliveries = await _context.Deliveries
+                .Where(d => d.Order != null && d.Order.OrderId == orderId)
+                .ToListAsync();
+            if (deliveries.Any())
+            {
+                _context.Deliveries.RemoveRange(deliveries);
+            }
+
             var order = await _context.Orders.FindAsync(orderId);
             if (order != null)
-            {
                 _context.Orders.Remove(order);
-                await _context.SaveChangesAsync();
-            }
+            
+            await _context.SaveChangesAsync();
         }
     }
 }

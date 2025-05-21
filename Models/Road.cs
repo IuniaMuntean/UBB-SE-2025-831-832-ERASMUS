@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Models
@@ -22,5 +23,8 @@ namespace UBB_SE_2025_EUROTRUCKERS.Models
         // Intreaba-l pe Razvan cum sa fac sa mearga
         public City StartCity { get; set; }
         public City EndCity { get; set; }
+        public RoadFinancials Financials { get; set; }
     }
+
 }
+

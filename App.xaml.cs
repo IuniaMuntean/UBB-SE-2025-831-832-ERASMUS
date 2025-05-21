@@ -60,6 +60,7 @@ namespace UBB_SE_2025_EUROTRUCKERS
             services.AddTransient<IOrderService, OrderService>();
             services.AddSingleton<IResourceServices,  ResourceServices>();
             services.AddSingleton<IMapService, MapService>();
+            services.AddSingleton<IRoadFinancialsService, RoadFinancialsService> ();
             services.AddLogging(configure => configure.AddDebug());
 
             // 4. Repositories

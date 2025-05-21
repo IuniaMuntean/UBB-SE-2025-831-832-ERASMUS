@@ -30,6 +30,7 @@
     <None Remove="Database\mock_data.sql" />
     <None Remove="Database\schema.sql" />
     <None Remove="Views\MainWindow.xaml" />
+    <None Remove="Views\Pages\OrderEditPage.xaml" />
   </ItemGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	    <CodeAnalysisRuleSet>SE.ruleset</CodeAnalysisRuleSet>
@@ -110,7 +111,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\interfaces\" />
+    <Page Update="Views\Pages\OrderEditPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--

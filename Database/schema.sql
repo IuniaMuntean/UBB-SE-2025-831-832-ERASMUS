@@ -81,3 +81,14 @@ CREATE TABLE transport.users (
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE transport.roadfinancials
+(
+    startcityid INT,
+    endcityid INT,
+    cost FLOAT,
+    revenue FLOAT,
+    PRIMARY KEY (startcityid, endcityid),
+    FOREIGN KEY (startcityid, endcityid)
+        REFERENCES transport.roads(startcityid, endcityid)
+);
