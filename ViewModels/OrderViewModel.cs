@@ -56,6 +56,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
             UpdateOrderCommand = new AsyncRelayCommand<Order>(NavigateToUpdateOrder);
             NavigateBackCommand = new RelayCommand(NavigateBack);
             SubmitOrderCommand = new AsyncRelayCommand(SubmitOrderAsync);
+            CreateDeliveryCommand = new RelayCommand<Order>(NavigateToCreateDelivery);
 
             _ = LoadOrdersCommand.ExecuteAsync((object?)null);
             _ = LoadCitiesAsync();
@@ -68,6 +69,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         public IRelayCommand<Order> UpdateOrderCommand { get; }
         public IRelayCommand NavigateBackCommand { get; }
         public IAsyncRelayCommand SubmitOrderCommand { get; }
+        public IRelayCommand<Order> CreateDeliveryCommand { get; }
 
         private async Task LoadCitiesAsync()
         {
@@ -112,28 +114,13 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 
         private async Task NavigateToAddOrder()
         {
-            IsEditMode = false;
-            NewOrder = new Order(); // Reset the form
-            _navigationService.NavigateTo<OrderViewModel>();
+            _navigationService.NavigateTo<AddOrderViewModel>();
         }
 
         private async Task NavigateToUpdateOrder(Order order)
         {
             if (order == null) return;
-
-            IsEditMode = true;
-            NewOrder = new Order
-            {
-                OrderId = order.OrderId,
-                ClientName = order.ClientName,
-                CargoType = order.CargoType,
-                CargoWeight = order.CargoWeight,
-                SourceCity = order.SourceCity,
-                DestinationCity = order.DestinationCity
-            };
-            _navigationService.NavigateTo<OrderViewModel>();
-
-            //_navigationService.NavigateToWithParameter<OrderEditViewModel>(order);
+            _navigationService.NavigateToWithParameter<AddOrderViewModel>(order);
         }
 
         private void NavigateBack()
@@ -198,6 +185,14 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
 
             _navigationService.NavigateToWithParameter<OrderViewModel>(order);
             _loggingService.LogDebug($"Navigating to details view for order {order.OrderId}");
+        }
+
+        private void NavigateToCreateDelivery(Order order)
+        {
+            if (order != null)
+            {
+                _navigationService.NavigateToWithParameter<AddDeliveryViewModel>(order);
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

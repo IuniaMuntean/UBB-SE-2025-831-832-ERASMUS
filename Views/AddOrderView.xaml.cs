@@ -4,19 +4,30 @@ using UBB_SE_2025_EUROTRUCKERS.ViewModels;
 using System;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
+using UBB_SE_2025_EUROTRUCKERS.Models;
 
 namespace UBB_SE_2025_EUROTRUCKERS.Views
 {
     public sealed partial class AddOrderView : Page
     {
-        public OrderViewModel ViewModel { get; }
+        public AddOrderViewModel ViewModel { get; }
         private Window _window;
 
         public AddOrderView()
         {
             this.InitializeComponent();
-            ViewModel = App.Services.GetRequiredService<OrderViewModel>();
+            ViewModel = App.Services.GetRequiredService<AddOrderViewModel>();
             this.DataContext = ViewModel;
+            _ = ViewModel.InitializeAsync();
+        }
+
+        protected override void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is Order order)
+            {
+                ViewModel.InitializeForEdit(order);
+            }
         }
 
         private async void OnSubmitClicked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

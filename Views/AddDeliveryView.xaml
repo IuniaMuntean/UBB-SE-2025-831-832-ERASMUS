@@ -1,0 +1,168 @@
+<Page
+    x:Class="UBB_SE_2025_EUROTRUCKERS.Views.AddDeliveryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:viewmodels="using:UBB_SE_2025_EUROTRUCKERS.ViewModels"
+    xmlns:converters="using:UBB_SE_2025_EUROTRUCKERS.Converters"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=viewmodels:AddDeliveryViewModel, IsDesignTimeCreatable=True}">
+
+    <Page.Resources>
+        <converters:DateTimeToDateConverter x:Key="DateTimeToDateConverter"/>
+        <converters:DateTimeToTimeConverter x:Key="DateTimeToTimeConverter"/>
+    </Page.Resources>
+
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10">
+            <Button Content="← Back" 
+                    Command="{Binding NavigateBackCommand}"
+                    Margin="0,0,20,0"
+                    Foreground="Black"
+                    Background="#B3CCCCCC"/>
+            <TextBlock Text="{Binding PageTitle}" 
+                      FontSize="24" 
+                      FontWeight="SemiBold"
+                      Foreground="Black"/>
+        </StackPanel>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" Margin="0,20,0,0">
+            <StackPanel Spacing="20" MaxWidth="600">
+                <!-- Order Details (Read Only) -->
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Order Details" 
+                                 Foreground="Black" 
+                                 FontWeight="SemiBold"
+                                 Margin="0,0,0,8"/>
+                        
+                        <!-- Client Name -->
+                        <StackPanel Margin="0,0,0,8">
+                            <TextBlock Text="Client Name" 
+                                     Foreground="Black" 
+                                     Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding SelectedOrder.ClientName}"
+                                     Foreground="Black"/>
+                        </StackPanel>
+
+                        <!-- Cargo Type -->
+                        <StackPanel Margin="0,0,0,8">
+                            <TextBlock Text="Cargo Type" 
+                                     Foreground="Black" 
+                                     Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding SelectedOrder.CargoType}"
+                                     Foreground="Black"/>
+                        </StackPanel>
+
+                        <!-- Cargo Weight -->
+                        <StackPanel Margin="0,0,0,8">
+                            <TextBlock Text="Cargo Weight" 
+                                     Foreground="Black" 
+                                     Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding SelectedOrder.CargoWeight}"
+                                     Foreground="Black"/>
+                        </StackPanel>
+
+                        <!-- Source City -->
+                        <StackPanel Margin="0,0,0,8">
+                            <TextBlock Text="Source City" 
+                                     Foreground="Black" 
+                                     Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding SelectedOrder.SourceCity.name}"
+                                     Foreground="Black"/>
+                        </StackPanel>
+
+                        <!-- Destination City -->
+                        <StackPanel Margin="0,0,0,8">
+                            <TextBlock Text="Destination City" 
+                                     Foreground="Black" 
+                                     Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding SelectedOrder.DestinationCity.name}"
+                                     Foreground="Black"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Driver Selection -->
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Driver" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <controls:ComboBox ItemsSource="{Binding AvailableDrivers}"
+                                         SelectedItem="{Binding NewDelivery.Driver, Mode=TwoWay}"
+                                         Foreground="Black"
+                                         PlaceholderForeground="#666666"
+                                         Background="Transparent">
+                            <controls:ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FirstName}" Foreground="Black"/>
+                                </DataTemplate>
+                            </controls:ComboBox.ItemTemplate>
+                        </controls:ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- Truck Selection -->
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Truck" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <controls:ComboBox ItemsSource="{Binding AvailableTrucks}"
+                                         SelectedItem="{Binding NewDelivery.Truck, Mode=TwoWay}"
+                                         Foreground="Black"
+                                         PlaceholderForeground="#666666"
+                                         Background="Transparent">
+                            <controls:ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LicensePlate}" Foreground="Black"/>
+                                </DataTemplate>
+                            </controls:ComboBox.ItemTemplate>
+                        </controls:ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- Departure Time -->
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Departure Time" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <CalendarDatePicker Header="Date"
+                                              Date="{Binding NewDelivery.DepartureTime, Mode=TwoWay, Converter={StaticResource DateTimeToDateConverter}}"
+                                              PlaceholderText="Select date"
+                                              Width="200"
+                                              HorizontalAlignment="Left"
+                                             
+                                                />
+                            <controls:TimePicker Header="Time"
+                                               Time="{Binding NewDelivery.DepartureTime, Mode=TwoWay, Converter={StaticResource DateTimeToTimeConverter}}"
+                                               Width="200"
+                                               HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Submit Button -->
+                <Button Content="Create Delivery"
+                        Command="{Binding SubmitDeliveryCommand}"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0"
+                        Padding="20,10"
+                        Foreground="Black"
+                        Background="#B3CCCCCC"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page> 
