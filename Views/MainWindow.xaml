@@ -36,11 +36,6 @@
                     Tag="deliveries"/>
 
                 <controls:NavigationViewItem 
-                    Content="Log Out" 
-                    Icon="LeaveChat" 
-                    Tag="logout"/>
-
-                <controls:NavigationViewItem 
                     Content="Map" 
                     Icon="Map" 
                     Tag="mappage"/>
@@ -49,6 +44,11 @@
                     Content="Resources Page" 
                     Icon="Add" 
                     Tag="resourcePage"/>
+
+                <controls:NavigationViewItem 
+                    Content="Log Out" 
+                    Icon="LeaveChat" 
+                    Tag="logout"/>
 
 
             </controls:NavigationView.MenuItems>

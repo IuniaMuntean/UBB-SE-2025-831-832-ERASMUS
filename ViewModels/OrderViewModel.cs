@@ -120,7 +120,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
         private async Task NavigateToUpdateOrder(Order order)
         {
             if (order == null) return;
-            
+
             IsEditMode = true;
             NewOrder = new Order
             {
@@ -132,6 +132,8 @@ namespace UBB_SE_2025_EUROTRUCKERS.ViewModels
                 DestinationCity = order.DestinationCity
             };
             _navigationService.NavigateTo<OrderViewModel>();
+
+            //_navigationService.NavigateToWithParameter<OrderEditViewModel>(order);
         }
 
         private void NavigateBack()

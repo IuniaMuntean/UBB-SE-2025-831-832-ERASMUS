@@ -17,6 +17,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
         public DbSet<Truck> Trucks { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Road> Roads { get; set; }
+        public DbSet<RoadFinancials> RoadFinancials { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
 
             modelBuilder.Entity<Delivery>(entity =>
             {
+                // Delivery
                 entity.ToTable("deliveries");
                 entity.HasKey(d => d.DeliveryId);
                 entity.Property(d => d.DeliveryId).HasColumnName("delivery_id");
@@ -36,17 +38,17 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
                 entity.HasOne(d => d.Order)
                     .WithMany()
                     .HasForeignKey("order_id")
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(d => d.Driver)
                     .WithMany()
                     .HasForeignKey("driver_id")
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(d => d.Truck)
                     .WithMany()
                     .HasForeignKey("truck_id")
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
             modelBuilder.Entity<Delivery>().ToTable("deliveries","transport");
 
@@ -88,7 +90,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
 
             modelBuilder.Entity<Road>().ToTable("roads", "transport");
 
-
+            // Orders Config
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("orders");
@@ -135,6 +137,20 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
                 entity.Property(t => t.Status).IsRequired().HasColumnName("status");
                 entity.Property(t => t.LastMaintenanceDate).HasColumnName("last_maintenance_date");
                 entity.Property(t => t.NextMaintenanceDate).HasColumnName("next_maintenance_date");
+            });
+
+            // Configure the RoadFinancials entity.
+            modelBuilder.Entity<RoadFinancials>(entity =>
+            {
+                // Map to the new "roadfinancials" table.
+                entity.ToTable("roadfinancials", "transport");
+                // Set composite primary key.
+                entity.HasKey(rf => new { rf.StartCityID, rf.EndCityID });
+
+                // Configure one-to-one relationship between Road and RoadFinancials.
+                entity.HasOne(rf => rf.Road)
+                      .WithOne(r => r.Financials)
+                      .HasForeignKey<RoadFinancials>(rf => new { rf.StartCityID, rf.EndCityID });
             });
         }
     }

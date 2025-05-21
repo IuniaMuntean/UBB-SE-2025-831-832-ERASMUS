@@ -53,6 +53,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
 
             adminConnection.Close();
 
+            if (!exists) 
             // Nueva conexión a transport_dev
             using (var connection = new NpgsqlConnection("Host=localhost;Username=postgres;Password=postgres;Database=transport_dev"))
             {
@@ -79,6 +80,7 @@ namespace UBB_SE_2025_EUROTRUCKERS.Data
                     Console.WriteLine(ex.Message);
                 }
             }
+
         }
 
 
