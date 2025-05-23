@@ -7,7 +7,7 @@
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:UBB_SE_2025_EUROTRUCKERS.ViewModels"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=viewmodels:OrderViewModel, IsDesignTimeCreatable=True}">
+    d:DataContext="{d:DesignInstance Type=viewmodels:AddOrderViewModel, IsDesignTimeCreatable=True}">
 
     <Grid Padding="20">
         <Grid.RowDefinitions>
@@ -18,59 +18,108 @@
         <!-- Header -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10">
             <Button Content="← Back" 
-                    Click="OnBackClicked"
-                    Margin="0,0,20,0"/>
-            <TextBlock Text="{Binding IsEditMode, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Edit Order|Add New Order'}" 
+                    Command="{Binding NavigateBackCommand}"
+                    Margin="0,0,20,0"
+                    Foreground="Black"
+                    Background="#B3CCCCCC"/>
+            <TextBlock Text="{Binding PageTitle}" 
                       FontSize="24" 
-                      FontWeight="SemiBold"/>
+                      FontWeight="SemiBold"
+                      Foreground="Black"/>
         </StackPanel>
 
         <!-- Form -->
         <ScrollViewer Grid.Row="1" Margin="0,20,0,0">
             <StackPanel Spacing="20" MaxWidth="600">
                 <!-- Client Name -->
-                <controls:TextBox Header="Client Name"
-                                PlaceholderText="Enter client name"
-                                Text="{Binding NewOrder.ClientName, Mode=TwoWay}"/>
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Client Name" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <controls:TextBox PlaceholderText="Enter client name"
+                                        Text="{Binding NewOrder.ClientName, Mode=TwoWay}"
+                                        Foreground="Black"
+                                        PlaceholderForeground="#666666"
+                                        Background="Transparent"/>
+                    </StackPanel>
+                </Border>
 
                 <!-- Cargo Type -->
-                <controls:TextBox Header="Cargo Type"
-                                PlaceholderText="Enter cargo type"
-                                Text="{Binding NewOrder.CargoType, Mode=TwoWay}"/>
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Cargo Type" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <controls:TextBox PlaceholderText="Enter cargo type"
+                                        Text="{Binding NewOrder.CargoType, Mode=TwoWay}"
+                                        Foreground="Black"
+                                        PlaceholderForeground="#666666"
+                                        Background="Transparent"/>
+                    </StackPanel>
+                </Border>
 
                 <!-- Cargo Weight -->
-                <controls:NumberBox Header="Cargo Weight (kg)"
-                                  PlaceholderText="Enter weight"
-                                  Value="{Binding NewOrder.CargoWeight, Mode=TwoWay}"/>
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Cargo Weight (kg)" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <controls:NumberBox PlaceholderText="Enter weight"
+                                          Value="{Binding NewOrder.CargoWeight, Mode=TwoWay}"
+                                          Foreground="Black"
+                                          Background="Transparent"/>
+                    </StackPanel>
+                </Border>
 
                 <!-- Source City -->
-                <controls:ComboBox Header="Source City"
-                                 ItemsSource="{Binding AvailableCities}"
-                                 SelectedItem="{Binding NewOrder.SourceCity, Mode=TwoWay}">
-                    <controls:ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding name}"/>
-                        </DataTemplate>
-                    </controls:ComboBox.ItemTemplate>
-                </controls:ComboBox>
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Source City" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <controls:ComboBox ItemsSource="{Binding AvailableCities}"
+                                         SelectedItem="{Binding NewOrder.SourceCity, Mode=TwoWay}"
+                                         Foreground="Black"
+                                         PlaceholderForeground="#666666"
+                                         Background="Transparent">
+                            <controls:ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}" Foreground="Black"/>
+                                </DataTemplate>
+                            </controls:ComboBox.ItemTemplate>
+                        </controls:ComboBox>
+                    </StackPanel>
+                </Border>
 
                 <!-- Destination City -->
-                <controls:ComboBox Header="Destination City"
-                                 ItemsSource="{Binding AvailableCities}"
-                                 SelectedItem="{Binding NewOrder.DestinationCity, Mode=TwoWay}">
-                    <controls:ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding name}"/>
-                        </DataTemplate>
-                    </controls:ComboBox.ItemTemplate>
-                </controls:ComboBox>
+                <Border Background="#B3CCCCCC" CornerRadius="4" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Destination City" 
+                                 Foreground="Black" 
+                                 Margin="0,0,0,8"/>
+                        <controls:ComboBox ItemsSource="{Binding AvailableCities}"
+                                         SelectedItem="{Binding NewOrder.DestinationCity, Mode=TwoWay}"
+                                         Foreground="Black"
+                                         PlaceholderForeground="#666666"
+                                         Background="Transparent">
+                            <controls:ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}" Foreground="Black"/>
+                                </DataTemplate>
+                            </controls:ComboBox.ItemTemplate>
+                        </controls:ComboBox>
+                    </StackPanel>
+                </Border>
 
                 <!-- Submit Button -->
-                <Button Content="{Binding IsEditMode, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Update Order|Create Order'}"
-                        Click="OnSubmitClicked"
+                <Button Content="{Binding SubmitButtonText}"
+                        Command="{Binding SubmitOrderCommand}"
                         HorizontalAlignment="Right"
                         Margin="0,20,0,0"
-                        Padding="20,10"/>
+                        Padding="20,10"
+                        Foreground="Black"
+                        Background="#B3CCCCCC"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

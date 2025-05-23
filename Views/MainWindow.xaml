@@ -18,9 +18,10 @@
         <!-- NavigationView con ItemInvoked -->
         <controls:NavigationView Grid.Column="0"
                               x:Name="NavView"
-                              PaneDisplayMode="LeftCompact"
-                              IsBackButtonVisible="Visible"
-                              IsSettingsVisible="True"
+                              PaneDisplayMode="Left"
+                              IsPaneToggleButtonVisible="False"
+                              IsBackButtonVisible="Collapsed"
+                              IsSettingsVisible="False"
                               Background="#80000000"
                               ItemInvoked="NavView_ItemInvoked">
 
